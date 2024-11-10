@@ -30,10 +30,16 @@
 
 // Nucleo Kit
 #ifdef STM8S208
-#define LED_PORT GPIOC
-#define LED_PIN  GPIO_PIN_5
+#define LED1_PORT GPIOC
+#define LED1_PIN  GPIO_PIN_5
+
+#define LED2_PORT GPIOC
+#define LED2_PIN  GPIO_PIN_7
+
+#define LED3_PORT GPIOC
+#define LED3_PIN  GPIO_PIN_6
 #define BTN_PORT GPIOE
-#define BTN_PIN  GPIO_PIN_4
+#define BTN_PIN  GPIO_PIN_5
 #endif
 
 // functions
