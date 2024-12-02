@@ -11,9 +11,10 @@ void init(void)
 {
     CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);      // taktovani MCU na 16MHz
     
-    GPIO_Init(LED1_PORT, LED1_PIN, GPIO_MODE_OUT_PP_HIGH_SLOW);
-    GPIO_Init(LED2_PORT, LED2_PIN, GPIO_MODE_OUT_PP_HIGH_SLOW);
-    GPIO_Init(LED3_PORT, LED3_PIN, GPIO_MODE_OUT_PP_HIGH_SLOW);
+    //Inicializace LEDek a tlačítka
+    GPIO_Init(LED1_PORT, LED1_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
+    GPIO_Init(LED2_PORT, LED2_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
+    GPIO_Init(LED3_PORT, LED3_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
 #if defined (BTN_PORT) || defined (BTN_PIN)
     GPIO_Init(BTN_PORT, BTN_PIN, GPIO_MODE_IN_FL_NO_IT);
 
@@ -27,16 +28,18 @@ void init(void)
 
 int main(void)
 {   
-    GPIO_WriteHigh(LED2_PORT, LED2_PIN);
     uint32_t time= 0;
     uint8_t btn_state= 0;
     uint8_t last_btn_state= 0;
-    uint8_t led_number= 2;
+    uint8_t led_number= 1;
+
+    init();
 
     while (1) {
         
         btn_state = GPIO_ReadInputPin(BTN_PORT, BTN_PIN);
 
+        //Sledování změny tlačítka
         if (btn_state== 0 && last_btn_state == 1) {
             delay_ms(20);
             led_number += 1;
@@ -46,6 +49,7 @@ int main(void)
             led_number= 1;
         }
 
+        //Nastavení LEDek  
         if (led_number == 1) {
             GPIO_WriteHigh(LED1_PORT, LED1_PIN);
             GPIO_WriteLow(LED2_PORT, LED2_PIN);
@@ -61,7 +65,7 @@ int main(void)
         }
 
         last_btn_state = btn_state;
-    }
+    } 
 } 
 
 /*-------------------------------  Assert -----------------------------------*/
